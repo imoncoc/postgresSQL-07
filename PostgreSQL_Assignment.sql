@@ -29,7 +29,7 @@ INSERT INTO students (student_name, age, email, frontend_mark, backend_mark, sta
               ('Nabil', 22, 'nabil@example.com', 37, 46, NULL),
               ('Rafi', 24, 'rafi@example.com', 41, 40, NULL),
               ('Sophia', 22, 'sophia@example.com', 50, 52, NULL),
-              ('Hasan', 21, 'hasan@example.com', 43, 39, NULL);
+              ('Hasan', 21, 'hasan@gmail.com', 43, 39, NULL);
 
 INSERT INTO courses (course_name, credits)
        VALUES('Next.js', 3),
@@ -48,7 +48,7 @@ SELECT * FROM students;
 SELECT * FROM courses;
 SELECT * FROM enrollment;
 
-DROP TABLE enrollment;
+DROP TABLE students;
 
 
 -- Query 1:
@@ -56,7 +56,7 @@ INSERT INTO students (student_name, age, email, frontend_mark, backend_mark, sta
        VALUES ('Anamul', 21, 'anamul@example.com', 45, 55, NULL);
 
 
--- Query 2
+-- Query 2:
 SELECT 
     students.student_name
 FROM 
@@ -69,7 +69,7 @@ WHERE
     courses.course_name = 'Next.js';
 
 
--- Query 3
+-- Query 3:
 UPDATE students
 SET status = 'Awarded'
 WHERE student_id = (
@@ -79,3 +79,29 @@ WHERE student_id = (
     ORDER BY SUM(frontend_mark + backend_mark) DESC
     LIMIT 1
 );
+
+
+-- Query 4: 
+DELETE FROM courses
+       WHERE NOT EXISTS (
+        SELECT 1 
+        FROM enrollment 
+        WHERE enrollment.course_id = courses.course_id
+    );
+
+-- Query 5:
+SELECT student_name FROM students LIMIT 2 OFFSET 2 * 1;
+
+-- Query 6: 
+SELECT courses.course_name,
+    COUNT(enrollment.student_id) AS enrolled_students
+         FROM courses
+         LEFT JOIN enrollment ON courses.course_id = enrollment.course_id
+         GROUP BY courses.course_name;
+
+-- Query 7:
+SELECT AVG(age)::NUMERIC(10,2) as average_age FROM students;
+
+-- Query 
+SELECT student_name FROM students
+    WHERE email LIKE '%example.com%';

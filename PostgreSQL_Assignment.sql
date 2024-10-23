@@ -102,6 +102,6 @@ SELECT courses.course_name,
 -- Query 7:
 SELECT AVG(age)::NUMERIC(10,2) as average_age FROM students;
 
--- Query 
+-- Query 8:
 SELECT student_name FROM students
     WHERE email LIKE '%example.com%';
